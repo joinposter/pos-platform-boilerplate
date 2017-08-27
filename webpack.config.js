@@ -4,7 +4,7 @@ var path = require("path");
 module.exports = {
 	context: __dirname,
 	entry: {
-		'bundle.js': "./src/app.js"
+		'bundle.js': "./src/js/app.js"
 	},
 
 	output: {
@@ -26,6 +26,19 @@ module.exports = {
 				query: {
 					presets: ['react', 'es2015', 'stage-0']
 				}
+			}, {
+				test: /\.css$/,
+                use: [
+                    { loader: "style-loader" },
+                    { loader: "css-loader" }
+				]
+			}, {
+				test: /\.less/,
+                use: [
+                    { loader: "style-loader" },
+                    { loader: "css-loader" },
+                    { loader: "less-loader" }
+				]
 			}
 		]
 	},
