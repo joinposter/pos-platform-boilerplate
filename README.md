@@ -7,4 +7,4 @@
 <kbd> npm install webpack-dev-server -g</kbd> 
 
 3
-<kbd> webpack-dev-server --port 1511</kbd>
+<kbd> webpack-dev-server</kbd>
