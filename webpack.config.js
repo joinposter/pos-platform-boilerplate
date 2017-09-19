@@ -20,7 +20,8 @@ module.exports = {
 				exclude: [
 				],
 				include: [
-					__dirname + '/src'
+					__dirname + '/src',
+                    __dirname + '\\src'
 				],
 
 				query: {
