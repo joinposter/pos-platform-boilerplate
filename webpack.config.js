@@ -1,6 +1,8 @@
 'use strict';
 var path = require("path");
 
+var build = process.env.NODE_ENV === 'production';
+
 module.exports = {
 	context: __dirname,
 	entry: {
@@ -46,7 +48,7 @@ module.exports = {
 
 	devtool: 'source-map',
 
-	watch: true,
+	watch: !build,
 
 	watchOptions: {
 		aggregateTimeout: 100
