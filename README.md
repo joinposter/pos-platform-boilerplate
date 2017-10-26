@@ -8,3 +8,6 @@
 
 3
 <kbd> webpack-dev-server</kbd>
+
+4
+<kbd> visit http://localhost:8080/</kbd>
