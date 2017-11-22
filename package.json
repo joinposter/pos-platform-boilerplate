@@ -4,8 +4,7 @@
   "description": "",
   "scripts": {
     "dev": "webpack-dev-server",
-    "prod": "NODE_ENV=production deploy",
-    "deploy": "node upload.js"
+    "deploy": "NODE_ENV=production node upload"
   },
   "repository": {
     "type": "git",
