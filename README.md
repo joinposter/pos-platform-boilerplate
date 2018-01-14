@@ -1,4 +1,9 @@
-# Poster-POS-Platfrom-Bolerplate
+# Poster POS Platform Boilerplate
+
+
+## Начало работы
+
+Чтобы запустить проект выполните
 
 1
 <kbd> npm install</kbd> 
@@ -8,3 +13,6 @@
 
 3
 <kbd> webpack-dev-server</kbd>
+
+
+## Описание 
