@@ -20,10 +20,8 @@ module.exports = {
 				test: /\.js?$/,
 				loader: 'babel-loader?cacheDirectory',
 				exclude: [
-				],
-				include: [
-					__dirname + '/src',
-                    __dirname + '\\src'
+                    __dirname + '/node_modules',
+                    __dirname + '\\node_modules'
 				],
 
 				query: {

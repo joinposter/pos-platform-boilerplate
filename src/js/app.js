@@ -1,138 +1,25 @@
+'use strict';
+
 import "../css/main.less";
 
-class HelloWorldApp extends React.Component {
+import LoyaltyApp from '../../examples/loyalty/loyaltyApp';
+
+
+class ExampleApp extends React.Component {
     constructor(props) {
         super(props);
 
-        this.bindEvents();
-        this.uploadClientsGroups();
-
-        Poster.interface.showApplicationIconAt({
-            functions: 'Настройки интеграции',
-            order: "Показать popup",
-        });
-
-        this.state = {
-            selectedGroup: 0,
-            groups: [],
-            clientName: "",
-            clientPhone: ""
-        };
+        this.state = {};
     }
 
-    updateInput = (e) => {
-        let {id, value} = e.target;
-
-        this.setState({[id]: value});
-    };
-
-    uploadClientsGroups = () => {
-        Poster.makeApiRequest('clients.getGroups', {method: 'get'}, (groups) => {
-            console.log(groups);
-
-            if (groups) {
-                groups = _.filter(groups, (g) => parseInt(g.delete) === 0);
-                this.setState({groups: groups});
-            }
-        })
-    };
-
-    bindEvents = () => {
-        Poster.on('applicationIconClicked', (data) => {
-            this.setState({place: data.place});
-
-            Poster.interface.popup({
-                width: 600,
-                height: 400,
-                title: data.place === 'functions' ? "Настройки" : "Заказ"
-            });
-        });
-    };
-
-    addClient = (e) => {
-        e.preventDefault();
-
-        let {clientName, clientPhone, groups, selectedGroup} = this.state;
-
-        Poster
-            .clients.find({searchVal: clientPhone})
-            .then((result) => {
-                // Если нашли хоть одного клиента, добавляем к заказу
-                if (result && result.foundClients && result.foundClients.length) {
-                    return result.foundClients[0];
-                }
-
-                // Создаем нового клиента
-                return Poster.clients.create({
-                    client: {
-                        client_sex: 1,
-                        client_name: clientName,
-                        phone: clientPhone,
-                        client_groups_id_client: groups[selectedGroup].client_groups_id
-                    }
-                })
-            })
-            .then((result) => {
-                console.log('===== RESULT =====', result);
-            })
-            .catch((err) => {
-                console.log('===== ERROR =====', err);
-            });
-
-    };
-
     render() {
-        let {clientName, clientPhone, groups, selectedGroup} = this.state;
-
         return (
-            <form onSubmit={this.addClient}>
-                <div className="row">
-                    <div className="col-xs-6">
-                        <div className="form-group">
-                            <label htmlFor="clientName">Имя</label>
-                            <input
-                                className="form-control" type="text" placeholder="Попов Сергей"
-                                id="clientName" onChange={this.updateInput} value={clientName}
-                            />
-                        </div>
-
-                        <div className="form-group">
-                            <label htmlFor="clientPhone">Телефон</label>
-                            <input
-                                className="form-control" type="text" placeholder="+380 (91) 415 2664"
-                                id="clientPhone" onChange={this.updateInput} value={clientPhone}
-                            />
-                        </div>
-
-                        <div className="form-group">
-                            <label htmlFor="selectedGroup">Группа</label>
-                            <select
-                                className="form-control"
-                                id="selectedGroup" onChange={this.updateInput} value={selectedGroup}
-                            >
-                                {groups.map((g, i) => (
-                                    <option value={i} key={i}>
-                                        {g.client_groups_name} ({g.client_groups_discount} %)
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="footer">
-                    <div className="row">
-                        <div className="col-xs-12">
-                            <button className="btn btn-lg btn-success" type="submit">Добавить клиента</button>
-                        </div>
-                    </div>
-                </div>
-            </form>
+            <LoyaltyApp/>
         );
     }
 }
 
 ReactDOM.render(
-    <HelloWorldApp/>,
+    <ExampleApp/>,
     document.getElementById('app-container')
 );
