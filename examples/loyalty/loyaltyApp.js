@@ -156,6 +156,7 @@ export default class LoyaltyApp extends React.Component {
                                 <p><b>Бонус:</b> {currentClient.bonus} грн.</p>
                                 <p><b>Номер карты:</b> {currentClient.cardNumber}</p>
                                 <p><b>Скидка:</b> {currentClient.discount} %</p>
+                                <p><b>Сумма покупок:</b> {currentClient.totalPayedSum} грн.</p>
                             </div>
                         )}
                     </div>
