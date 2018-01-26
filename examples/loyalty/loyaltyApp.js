@@ -6,8 +6,8 @@ export default class LoyaltyApp extends React.Component {
         this.uploadClientsGroups();
 
         Poster.interface.showApplicationIconAt({
-            functions: 'Настройки интеграции',
-            order: "Показать popup",
+            functions: 'Настройки лояльности',
+            order: "Добавить клиента",
         });
 
         this.state = {
@@ -20,6 +20,7 @@ export default class LoyaltyApp extends React.Component {
     }
 
     updateInput = (e) => {
+        console.log('update input event', e);
         let {id, value} = e.target;
 
         this.setState({[id]: value});
@@ -99,7 +100,6 @@ export default class LoyaltyApp extends React.Component {
                 return Poster.orders.setOrderClient(currentOrder.id, client.id);
             })
             .then((result) => {
-
                 console.log('===== RESULT =====', result);
             })
             .catch((err) => {
@@ -119,6 +119,9 @@ export default class LoyaltyApp extends React.Component {
         } else {
             return (
                 <form onSubmit={this.addClient}>
+                    {/** using hidden input for IOS 9 input focus and onChange fix **/}
+                    <input type="hidden"/>
+
                     <div className="row">
                         <div className="col-xs-6">
                             <div className="form-group">
