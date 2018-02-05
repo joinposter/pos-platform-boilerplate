@@ -2,7 +2,8 @@
 
 import "../css/main.less";
 
-import LoyaltyApp from '../../examples/loyalty/loyaltyApp';
+import LoyaltyApp       from '../../examples/loyalty/app';
+import HelloWorldApp    from '../../examples/hello-world/app';
 
 
 class ExampleApp extends React.Component {
@@ -13,6 +14,12 @@ class ExampleApp extends React.Component {
     }
 
     render() {
+        // Чтобы отобразить нужный пример просто вызовите нужную компоненту
+
+        return (
+            <HelloWorldApp/>
+        );
+
         return (
             <LoyaltyApp/>
         );

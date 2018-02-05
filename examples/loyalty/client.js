@@ -1,80 +1,26 @@
-export default class LoyaltyApp extends React.Component {
+export default class OrderView extends React.Component {
     constructor(props) {
         super(props);
 
-        this.bindEvents();
-        this.uploadClientsGroups();
-
-        Poster.interface.showApplicationIconAt({
-            functions: 'Настройки лояльности',
-            order: "Добавить клиента",
-        });
-
         this.state = {
-            place: 'functions', // functions or order
-            selectedGroup: 0,
-            groups: [],
-            clientName: "",
-            clientPhone: ""
+            clientName: '',
+            clientPhone: '',
+            selectedGroup: '',
         };
     }
 
     updateInput = (e) => {
-        console.log('update input event', e);
         let {id, value} = e.target;
-
         this.setState({[id]: value});
-    };
-
-    uploadClientsGroups = () => {
-        Poster.makeApiRequest('clients.getGroups', {method: 'get'}, (groups) => {
-            console.log(groups);
-
-            if (groups) {
-                groups = _.filter(groups, (g) => parseInt(g.delete) === 0);
-                this.setState({groups: groups});
-            }
-        })
-    };
-
-    bindEvents = () => {
-        Poster.on('applicationIconClicked', (data) => {
-            this.setState({place: data.place});
-
-
-            if (data.place === 'order') {
-                Poster.clients
-                    .get(data.order.clientId)
-                    .then((client) => {
-                        if (!(client && client.id)) {
-                            client = null;
-                        }
-
-                        console.log({currentClient: client, currentOrder: data.order});
-                        this.setState({currentClient: client, currentOrder: data.order});
-
-                        Poster.interface.popup({
-                            width: 600,
-                            height: 400,
-                            title: "Заказ"
-                        });
-                    });
-            } else {
-                this.setState({currentClient: null, currentOrder: null});
-
-                Poster.interface.popup({
-                    width: 600,
-                    height: 400,
-                    title: "Настройки"
-                });
-            }
-        });
     };
 
     addClient = (e) => {
         e.preventDefault();
 
-        let {clientName, clientPhone, groups, selectedGroup} = this.state;
+        let {clientName, clientPhone, selectedGroup} = this.state;
+        let {setCurrentClient, groups, order} = this.props;
+
+        // TODO: тут можно искать клиента в сторонней системе и получать по нему всю информацию
 
         Poster.clients
             .find({searchVal: clientPhone})
@@ -95,27 +41,33 @@ export default class LoyaltyApp extends React.Component {
                 })
             })
             .then((client) => {
-                let {currentOrder} = this.state;
-
-                return Poster.orders.setOrderClient(currentOrder.id, client.id);
-            })
-            .then((result) => {
-                console.log('===== RESULT =====', result);
+                // Отобразили клиента
+                setCurrentClient(order, client);
             })
             .catch((err) => {
-                console.log('===== ERROR =====', err);
+                console.error(err);
             });
     };
 
     render() {
-        let {place, clientName, clientPhone, groups, selectedGroup, currentClient} = this.state;
+        let {clientName, clientPhone, selectedGroup} = this.state;
+        let {groups, currentClient} = this.props;
 
-        if (place === 'functions') {
+        // Если клиент привязан то показываем его бонусы по нему
+        // Иначе даем возможность создать клиента и добавить заказа
+        if (currentClient) {
             return (
-                <div>
-                    <p>В этом окне можно показывать настройки приложения</p>
+                <div className="row">
+                    <div className="col-xs-6">
+                        <p><b>Имя:</b> {currentClient.firstname} {currentClient.lastname}</p>
+                        <p><b>Номер карты:</b> {currentClient.cardNumber || '—'}</p>
+                        <p><b>Сумма покупок:</b> {currentClient.totalPayedSum} грн.</p>
+
+                        <p><b>Скидка:</b> {currentClient.discount} %</p>
+                        <p><b>Бонус:</b> {currentClient.bonus} грн.</p>
+                    </div>
                 </div>
-            )
+            );
         } else {
             return (
                 <form onSubmit={this.addClient}>
@@ -141,6 +93,7 @@ export default class LoyaltyApp extends React.Component {
                             </div>
 
                             <div className="form-group">
+                                {/** У каждого клиента в Poster обязательно должна быть группа **/}
                                 <label htmlFor="selectedGroup">Группа</label>
                                 <select
                                     className="form-control"
@@ -154,14 +107,6 @@ export default class LoyaltyApp extends React.Component {
                                 </select>
                             </div>
                         </div>
-                        {currentClient && (
-                            <div className="col-xs-6">
-                                <p><b>Бонус:</b> {currentClient.bonus} грн.</p>
-                                <p><b>Номер карты:</b> {currentClient.cardNumber}</p>
-                                <p><b>Скидка:</b> {currentClient.discount} %</p>
-                                <p><b>Сумма покупок:</b> {currentClient.totalPayedSum} грн.</p>
-                            </div>
-                        )}
                     </div>
 
                     <div className="footer">
