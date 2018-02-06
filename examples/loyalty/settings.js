@@ -5,12 +5,10 @@ export default class SettingsView extends React.Component {
         this.state = {};
     }
 
-
-
     render() {
         return (
             <div>
-                <p>Настройки .</p>
+                <p>Тут будут настройки приложения</p>
             </div>
         )
     }

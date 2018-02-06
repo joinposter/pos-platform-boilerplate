@@ -16,9 +16,9 @@ class ExampleApp extends React.Component {
     render() {
         // Чтобы отобразить нужный пример просто вызовите нужную компоненту
 
-        return (
-            <HelloWorldApp/>
-        );
+        // return (
+        //     <HelloWorldApp/>
+        // );
 
         return (
             <LoyaltyApp/>

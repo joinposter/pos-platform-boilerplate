@@ -58,14 +58,20 @@ export default class OrderView extends React.Component {
         if (currentClient) {
             return (
                 <div className="row">
-                    <div className="col-xs-6">
-                        <p><b>Имя:</b> {currentClient.firstname} {currentClient.lastname}</p>
-                        <p><b>Номер карты:</b> {currentClient.cardNumber || '—'}</p>
-                        <p><b>Сумма покупок:</b> {currentClient.totalPayedSum} грн.</p>
+                    <div className="col-xs-4"><b>Имя</b></div>
+                    <div className="col-xs-8"><p>{currentClient.firstname} {currentClient.lastname}</p></div>
 
-                        <p><b>Скидка:</b> {currentClient.discount} %</p>
-                        <p><b>Бонус:</b> {currentClient.bonus} грн.</p>
-                    </div>
+                    <div className="col-xs-4"><b>Номер карты</b></div>
+                    <div className="col-xs-8"><p>{currentClient.cardNumber || '—'}</p></div>
+
+                    <div className="col-xs-4"><b>Сумма покупок</b></div>
+                    <div className="col-xs-8"><p>{currentClient.totalPayedSum} грн</p></div>
+
+                    <div className="col-xs-4"><b>Скидка</b></div>
+                    <div className="col-xs-8"><p>{currentClient.discount} %</p></div>
+
+                    <div className="col-xs-4"><b>Бонус</b></div>
+                    <div className="col-xs-8"><p>{currentClient.bonus} грн</p></div>
                 </div>
             );
         } else {

@@ -6,8 +6,7 @@ import BonusView from './bonus';
 
 /**
  * Отвечает за общую логику приложения,
- * обрабатывает ивенты Poster и передает их другим компонентам
- *
+ * обрабатывает ивенты Poster и отображает разные компоненты
  */
 export default class LoyaltyApp extends React.Component {
     constructor(props) {
@@ -25,8 +24,8 @@ export default class LoyaltyApp extends React.Component {
     componentDidMount() {
         // Показываем кнопки в интерфейсе Poster
         Poster.interface.showApplicationIconAt({
-            functions: 'Настройки интеграции',
-            order: 'Добавить клиента интеграции',
+            functions: 'Интеграция: настройки',
+            order: 'Интеграция: добавить клиента',
         });
 
         // Подписываемся на ивенты Poster
@@ -137,7 +136,7 @@ export default class LoyaltyApp extends React.Component {
 
                         Poster.interface.popup({width: 500, height: 300, title: "Списание бонусов"});
                     } else {
-                        // Если нет клиента, продолжаем поток выполнения в Poster
+                        // Если не нашли клиента, продолжаем поток выполнения в Poster
                         this.next();
                     }
                 });
