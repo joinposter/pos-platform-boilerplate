@@ -1,7 +1,6 @@
 'use strict';
 
 import ClientView from './client';
-import SettingsView from './settings';
 import BonusView from './bonus';
 
 /**
@@ -13,9 +12,8 @@ export default class LoyaltyApp extends React.Component {
         super(props);
 
         this.state = {
-            place: 'functions', // Доступные варианты: functions, order
+            place: 'order', // Доступные варианты: order | beforeOrderClose
             clientGroups: [], // Группы клиентов в Poster
-            settings: Poster.settings.spotExtras, // Настройки
             currentClient: null,
             currentOrder: null,
         }
@@ -24,7 +22,6 @@ export default class LoyaltyApp extends React.Component {
     componentDidMount() {
         // Показываем кнопки в интерфейсе Poster
         Poster.interface.showApplicationIconAt({
-            functions: 'Интеграция: настройки',
             order: 'Интеграция: добавить клиента',
         });
 
@@ -76,13 +73,39 @@ export default class LoyaltyApp extends React.Component {
     /**
      * Добавляет клиента к текущему заказу
      * @param order
-     * @param client
+     * @param newClient
      */
-    setOrderClient = (order, client) => {
-        this.setState({currentOrder: order, currentClient: client});
+    setOrderClient = (order, newClient) => {
+        // TODO: в этом методе можно
 
-        // Привязали к заказу
-        Poster.orders.setOrderClient(order.id, client.id);
+        Poster.clients
+            .find({searchVal: newClient.phone})
+            .then((result) => {
+                // Если нашли хоть одного клиента, добавляем к заказу
+                if (result && result.foundClients && result.foundClients.length) {
+                    return result.foundClients[0];
+                }
+
+                // Создаем нового клиента
+                return Poster.clients.create({
+                    client: {
+                        client_sex: 1,
+                        client_name: newClient.name,
+                        phone: newClient.phone,
+                        client_groups_id_client: newClient.groupId
+                    }
+                })
+            })
+            .then((client) => {
+                // Отобразили клиента
+                this.setState({currentOrder: order, currentClient: client});
+
+                // Привязали к заказу
+                Poster.orders.setOrderClient(order.id, client.id);
+            })
+            .catch((err) => {
+                console.error(err);
+            });
     };
 
     /**
@@ -101,10 +124,6 @@ export default class LoyaltyApp extends React.Component {
         this.next();
     };
 
-    updateSettings = () => {
-
-    };
-
     /**
      * Показывает интерфейс в зависимости от места в котором интерфейс вызывают
      * @param data
@@ -117,11 +136,6 @@ export default class LoyaltyApp extends React.Component {
 
                     Poster.interface.popup({width: 600, height: 400, title: "Клиент интеграции"});
                 });
-        }
-
-        if (data.place === 'functions') {
-            this.setState({currentClient: null, currentOrder: null, place: 'functions'});
-            Poster.interface.popup({width: 600, height: 400, title: "Настройки интеграции"});
         }
 
         if (data.place === 'beforeOrderClose') {
@@ -144,21 +158,15 @@ export default class LoyaltyApp extends React.Component {
     };
 
     render() {
-        let {place, clientGroups, settings, currentClient, currentOrder} = this.state;
+        let {place, clientGroups, currentClient, currentOrder} = this.state;
 
         // В зависимости от места в котором вызвали икно интеграции отображаем разные окна
-        // Окно настроек
-        if (place === 'functions') {
-            return (
-                <SettingsView settings={settings} updateSettings={this.updateSettings} />
-            )
-        }
 
         // Окно заказа
         if (place === 'order') {
             return (
                 <ClientView
-                    groups={clientGroups} currentClient={currentClient} order={currentOrder}
+                    groups={clientGroups} currentClient={currentClient} currentOrder={currentOrder}
                     setCurrentClient={this.setOrderClient}
                 />
             );
@@ -173,5 +181,7 @@ export default class LoyaltyApp extends React.Component {
                 />
             )
         }
+
+        return (<div></div>)
     }
 }

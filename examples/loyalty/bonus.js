@@ -1,3 +1,6 @@
+/**
+ * Окно подтверждения списания бонусов
+ */
 export default class BonusView extends React.Component {
     constructor(props) {
         super(props);
@@ -18,6 +21,8 @@ export default class BonusView extends React.Component {
 
     render() {
         let {bonus} = this.state;
+        let {currentClient} = this.props;
+        console.log(currentClient);
 
         return (
             <form onSubmit={this.setBonus}>
@@ -25,12 +30,15 @@ export default class BonusView extends React.Component {
                 <input type="hidden"/>
 
                 <div className="row">
-                    <div className="col-xs-6">
-                        <label htmlFor="bonus">Сумма списания</label>
+                    <div className="col-xs-12">
+                        <p>У {currentClient.firstname} {currentClient.lastname} есть {currentClient.bonus} грн бонусов</p>
+
+                        <label htmlFor="bonus">Списать</label>
                         <input
                             type="text" placeholder="10.99 грн" id="bonus" className="form-control"
                             value={bonus} onChange={this.updateInput}
                         />
+
                     </div>
                 </div>
 

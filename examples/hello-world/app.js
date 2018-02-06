@@ -10,35 +10,29 @@ export default class HelloWorldApp extends React.Component {
             message: ''
         };
 
+        // Показываем кнопки приложения в окне настроек и заказа
         Poster.interface.showApplicationIconAt({
             functions: 'Кнопка платформы',
             order: 'Кнопка платформы',
         });
 
-        Poster.on('afterOrderClose', () => {
-            this.setState({
-                emoji: '🍾',
-                message: 'Вы только что закрыли заказ, ура!'
-            });
-
+        // Подписываемся на клик по кнопке
+        Poster.on('applicationIconClicked', (data) => {
+            if (data.place === 'order') {
+                this.setState({emoji: '👩‍🍳', message: 'Вы открыли окно заказа!'});
+            } else {
+                this.setState({emoji: '⚙', message: 'Вы открыли окно настроек!'});
+            }
+            // Показываем интерфейс
             Poster.interface.popup({width: 500, height: 400, title: "Мое приложение"});
         });
 
-        Poster.on('applicationIconClicked', (data) => {
-            if (data.place === 'order') {
-                this.setState({
-                    emoji: '👩‍🍳',
-                    message: 'Вы открыли окно заказа!'
-                });
-            } else {
-                this.setState({
-                    emoji: '⚙',
-                    message: 'Вы открыли окно настроек!'
-                });
-            }
-
+        // Подписываемся на ивент закрытия заказа
+        Poster.on('afterOrderClose', () => {
+            this.setState({emoji: '🍾', message: 'Вы только что закрыли заказ, ура!'});
+            // Показываем интерфейс
             Poster.interface.popup({width: 500, height: 400, title: "Мое приложение"});
-        })
+        });
     }
 
     render() {

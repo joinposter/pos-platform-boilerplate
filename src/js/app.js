@@ -2,27 +2,17 @@
 
 import "../css/main.less";
 
-import LoyaltyApp       from '../../examples/loyalty/app';
 import HelloWorldApp    from '../../examples/hello-world/app';
+import LoyaltyApp       from '../../examples/loyalty/app';
 
 
 class ExampleApp extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {};
-    }
-
     render() {
-        // Чтобы отобразить нужный пример просто вызовите нужную компоненту
+        // Чтобы отобразить нужный пример просто закомментируйте не нужныйе компоненты
 
-        // return (
-        //     <HelloWorldApp/>
-        // );
+        return <HelloWorldApp/>;
 
-        return (
-            <LoyaltyApp/>
-        );
+        // return <LoyaltyApp/>;
     }
 }
 

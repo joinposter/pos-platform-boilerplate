@@ -1,3 +1,7 @@
+
+/**
+ * Отображает и создает новых клиентов
+ * **/
 export default class OrderView extends React.Component {
     constructor(props) {
         super(props);
@@ -5,7 +9,7 @@ export default class OrderView extends React.Component {
         this.state = {
             clientName: '',
             clientPhone: '',
-            selectedGroup: '',
+            selectedGroup: 0,
         };
     }
 
@@ -18,35 +22,13 @@ export default class OrderView extends React.Component {
         e.preventDefault();
 
         let {clientName, clientPhone, selectedGroup} = this.state;
-        let {setCurrentClient, groups, order} = this.props;
+        let {setCurrentClient, groups, currentOrder} = this.props;
 
-        // TODO: тут можно искать клиента в сторонней системе и получать по нему всю информацию
-
-        Poster.clients
-            .find({searchVal: clientPhone})
-            .then((result) => {
-                // Если нашли хоть одного клиента, добавляем к заказу
-                if (result && result.foundClients && result.foundClients.length) {
-                    return result.foundClients[0];
-                }
-
-                // Создаем нового клиента
-                return Poster.clients.create({
-                    client: {
-                        client_sex: 1,
-                        client_name: clientName,
-                        phone: clientPhone,
-                        client_groups_id_client: groups[selectedGroup].client_groups_id
-                    }
-                })
-            })
-            .then((client) => {
-                // Отобразили клиента
-                setCurrentClient(order, client);
-            })
-            .catch((err) => {
-                console.error(err);
-            });
+        setCurrentClient(currentOrder, {
+            name: clientName,
+            phone: clientPhone,
+            groupId: groups[selectedGroup].client_groups_id
+        });
     };
 
     render() {
@@ -65,13 +47,13 @@ export default class OrderView extends React.Component {
                     <div className="col-xs-8"><p>{currentClient.cardNumber || '—'}</p></div>
 
                     <div className="col-xs-4"><b>Сумма покупок</b></div>
-                    <div className="col-xs-8"><p>{currentClient.totalPayedSum} грн</p></div>
+                    <div className="col-xs-8"><p>{currentClient.totalPayedSum || 0} грн</p></div>
 
                     <div className="col-xs-4"><b>Скидка</b></div>
-                    <div className="col-xs-8"><p>{currentClient.discount} %</p></div>
+                    <div className="col-xs-8"><p>{currentClient.discount || 0} %</p></div>
 
                     <div className="col-xs-4"><b>Бонус</b></div>
-                    <div className="col-xs-8"><p>{currentClient.bonus} грн</p></div>
+                    <div className="col-xs-8"><p>{currentClient.bonus || 0} грн</p></div>
                 </div>
             );
         } else {
