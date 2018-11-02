@@ -1,5 +1,6 @@
 'use strict';
 
+
 import ClientView from './client';
 import BonusView from './bonus';
 
@@ -22,7 +23,7 @@ export default class LoyaltyApp extends React.Component {
     componentDidMount() {
         // Показываем кнопки в интерфейсе Poster
         Poster.interface.showApplicationIconAt({
-            order: 'Интеграция: добавить клиента',
+            order: 'Rocket App',
         });
 
         // Подписываемся на ивенты Poster
@@ -30,7 +31,7 @@ export default class LoyaltyApp extends React.Component {
         Poster.on('beforeOrderClose', (data, next) => {
             // Сохранили callback чтобы закрыть заказ
             this.next = next;
-            this.showPopup({place: 'beforeOrderClose'});
+            this.showPopup({ place: 'beforeOrderClose' });
         });
 
         this.getClientsGroups();
@@ -40,11 +41,11 @@ export default class LoyaltyApp extends React.Component {
      * Получает группы клиентов из Poster
      */
     getClientsGroups = () => {
-        Poster.makeApiRequest('clients.getGroups', {method: 'get'}, (groups) => {
+        Poster.makeApiRequest('clients.getGroups', { method: 'get' }, (groups) => {
             if (groups) {
                 // Не показываем удаленные группы
                 groups = _.filter(groups, (g) => parseInt(g.delete) === 0);
-                this.setState({clientGroups: groups});
+                this.setState({ clientGroups: groups });
             }
         })
     };
@@ -66,7 +67,7 @@ export default class LoyaltyApp extends React.Component {
                 }
             })
             .then((client) => {
-                return {order: activeOrder, client: client}
+                return { order: activeOrder, client: client }
             })
     };
 
@@ -79,7 +80,7 @@ export default class LoyaltyApp extends React.Component {
         // TODO: в этом методе можно
 
         Poster.clients
-            .find({searchVal: newClient.phone})
+            .find({ searchVal: newClient.phone })
             .then((result) => {
                 // Если нашли хоть одного клиента, добавляем к заказу
                 if (result && result.foundClients && result.foundClients.length) {
@@ -92,13 +93,14 @@ export default class LoyaltyApp extends React.Component {
                         client_sex: 1,
                         client_name: newClient.name,
                         phone: newClient.phone,
-                        client_groups_id_client: newClient.groupId
+                        client_groups_id_client: newClient.groupId,
+                        bonus: 2000,
                     }
                 })
             })
             .then((client) => {
                 // Отобразили клиента
-                this.setState({currentOrder: order, currentClient: client});
+                this.setState({ currentOrder: order, currentClient: client });
 
                 // Привязали к заказу
                 Poster.orders.setOrderClient(order.id, client.id);
@@ -113,7 +115,7 @@ export default class LoyaltyApp extends React.Component {
      * @param bonus
      */
     withdrawBonus = (bonus) => {
-        let {currentOrder} = this.state;
+        let { currentOrder } = this.state;
 
         bonus = parseFloat(bonus);
 
@@ -132,9 +134,9 @@ export default class LoyaltyApp extends React.Component {
         if (data.place === 'order') {
             this.getCurrentClient()
                 .then((info) => {
-                    this.setState({currentClient: info.client, currentOrder: info.order, place: 'order'});
+                    this.setState({ currentClient: info.client, currentOrder: data.order, place: 'order' });
 
-                    Poster.interface.popup({width: 600, height: 400, title: "Клиент интеграции"});
+                    Poster.interface.popup({ width: 600, height: 400, title: "Клиент интеграции" });
                 });
         }
 
@@ -148,7 +150,7 @@ export default class LoyaltyApp extends React.Component {
                             place: 'beforeOrderClose'
                         });
 
-                        Poster.interface.popup({width: 500, height: 300, title: "Списание бонусов"});
+                        Poster.interface.popup({ width: 500, height: 300, title: "Списание бонусов" });
                     } else {
                         // Если не нашли клиента, продолжаем поток выполнения в Poster
                         this.next();
@@ -158,7 +160,7 @@ export default class LoyaltyApp extends React.Component {
     };
 
     render() {
-        let {place, clientGroups, currentClient, currentOrder} = this.state;
+        let { place, clientGroups, currentClient, currentOrder } = this.state;
 
         // В зависимости от места в котором вызвали икно интеграции отображаем разные окна
 

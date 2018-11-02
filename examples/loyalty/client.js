@@ -1,4 +1,3 @@
-
 /**
  * Отображает и создает новых клиентов
  * **/
@@ -13,27 +12,35 @@ export default class OrderView extends React.Component {
         };
     }
 
+    scanQR = () => {
+        Poster.interface.scanBarcode().then((barcode) => {
+            this.addClient({
+                preventDefault: () => {
+                }
+            })
+        })
+    };
+
     updateInput = (e) => {
-        let {id, value} = e.target;
-        this.setState({[id]: value});
+        let { id, value } = e.target;
+        this.setState({ [id]: value });
     };
 
     addClient = (e) => {
         e.preventDefault();
 
-        let {clientName, clientPhone, selectedGroup} = this.state;
-        let {setCurrentClient, groups, currentOrder} = this.props;
+        let { setCurrentClient, groups, currentOrder } = this.props;
 
         setCurrentClient(currentOrder, {
-            name: clientName,
-            phone: clientPhone,
-            groupId: groups[selectedGroup].client_groups_id
+            name: 'Vladimir',
+            phone: '+380 (91) 415 2664',
+            groupId: groups[0].client_groups_id
         });
     };
 
     render() {
-        let {clientName, clientPhone, selectedGroup} = this.state;
-        let {groups, currentClient} = this.props;
+        let { clientCode, clientPhone, selectedGroup } = this.state;
+        let { groups, currentClient } = this.props;
 
         // Если клиент привязан то показываем его бонусы по нему
         // Иначе даем возможность создать клиента и добавить заказа
@@ -53,7 +60,7 @@ export default class OrderView extends React.Component {
                     <div className="col-xs-8"><p>{currentClient.discount || 0} %</p></div>
 
                     <div className="col-xs-4"><b>Бонус</b></div>
-                    <div className="col-xs-8"><p>{currentClient.bonus || 0} грн</p></div>
+                    <div className="col-xs-8"><p>{currentClient.bonus || 200} грн</p></div>
                 </div>
             );
         } else {
@@ -63,37 +70,21 @@ export default class OrderView extends React.Component {
                     <input type="hidden"/>
 
                     <div className="row">
-                        <div className="col-xs-6">
-                            <div className="form-group">
-                                <label htmlFor="clientName">Имя</label>
+                        <div className="col-xs-3">
+                            <label htmlFor="code btn btn-default" style={{ marginTop: 10 }}>Guest code</label>
+                        </div>
+                        <div className="col-xs-5">
+                            <div className="input-group-lg">
                                 <input
-                                    className="form-control" type="text" placeholder="Попов Сергей"
-                                    id="clientName" onChange={this.updateInput} value={clientName}
+                                    className="form-control" type="text" placeholder="391230"
+                                    id="code" onChange={this.updateInput} value={clientCode}
                                 />
                             </div>
-
-                            <div className="form-group">
-                                <label htmlFor="clientPhone">Телефон</label>
-                                <input
-                                    className="form-control" type="text" placeholder="+380 (91) 415 2664"
-                                    id="clientPhone" onChange={this.updateInput} value={clientPhone}
-                                />
-                            </div>
-
-                            <div className="form-group">
-                                {/** У каждого клиента в Poster обязательно должна быть группа **/}
-                                <label htmlFor="selectedGroup">Группа</label>
-                                <select
-                                    className="form-control"
-                                    id="selectedGroup" onChange={this.updateInput} value={selectedGroup}
-                                >
-                                    {groups.map((g, i) => (
-                                        <option value={i} key={i}>
-                                            {g.client_groups_name} ({g.client_groups_discount} %)
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
+                        </div>
+                        <div className="col-xs-3">
+                            <button type="button" className="btn btn-primary btn-lg" onClick={this.scanQR}>
+                                Scan QR
+                            </button>
                         </div>
                     </div>
 
