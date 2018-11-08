@@ -13,8 +13,8 @@ export default class DeviceHandshakeApp extends React.Component {
         });
 
         // Подписываемся на клик по кнопке
-        Poster.on('applicationIconClicked', (data) => {
-            Poster.interface.popup({ width: 500, height: 400, title: "Platform devices" });
+        Poster.on('applicationIconClicked', () => {
+            Poster.interface.popup({ width: 500, height: 400, title: 'Platform devices' });
         });
 
         Poster.on('deviceMessage', () => {
@@ -22,12 +22,13 @@ export default class DeviceHandshakeApp extends React.Component {
                 title: 'Message from device',
                 message: 'Hello!',
                 icon: 'https://demo.joinposter.com/upload/apps/icons/posterboss-ios.png',
-            })
+            });
         });
     }
 
     sendMessage = async () => {
-        let result = await Poster.devices.getAll();
+        const result = await Poster.devices.getAll();
+
         if (result.success) {
             result.devices.forEach((device) => {
                 console.log('send message to', device);
@@ -43,6 +44,6 @@ export default class DeviceHandshakeApp extends React.Component {
                     Say 👋
                 </button>
             </div>
-        )
+        );
     }
 }

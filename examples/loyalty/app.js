@@ -1,6 +1,3 @@
-'use strict';
-
-
 import ClientView from './client';
 import BonusView from './bonus';
 
@@ -17,7 +14,7 @@ export default class LoyaltyApp extends React.Component {
             clientGroups: [], // Группы клиентов в Poster
             currentClient: null,
             currentOrder: null,
-        }
+        };
     }
 
     componentDidMount() {
@@ -35,7 +32,7 @@ export default class LoyaltyApp extends React.Component {
         });
 
         this.getClientsGroups();
-    };
+    }
 
     /**
      * Получает группы клиентов из Poster
@@ -44,10 +41,10 @@ export default class LoyaltyApp extends React.Component {
         Poster.makeApiRequest('clients.getGroups', { method: 'get' }, (groups) => {
             if (groups) {
                 // Не показываем удаленные группы
-                groups = _.filter(groups, (g) => parseInt(g.delete) === 0);
+                groups = _.filter(groups, g => parseInt(g.delete) === 0);
                 this.setState({ clientGroups: groups });
             }
-        })
+        });
     };
 
     /**
@@ -61,14 +58,11 @@ export default class LoyaltyApp extends React.Component {
             .then((data) => {
                 if (data.order && data.order.clientId) {
                     activeOrder = data.order;
-                    return Poster.clients.get(Number(data.order.clientId))
-                } else {
-                    return null;
+                    return Poster.clients.get(Number(data.order.clientId));
                 }
+                return null;
             })
-            .then((client) => {
-                return { order: activeOrder, client: client }
-            })
+            .then(client => ({ order: activeOrder, client }));
     };
 
     /**
@@ -95,8 +89,8 @@ export default class LoyaltyApp extends React.Component {
                         phone: newClient.phone,
                         client_groups_id_client: newClient.groupId,
                         bonus: 2000,
-                    }
-                })
+                    },
+                });
             })
             .then((client) => {
                 // Отобразили клиента
@@ -115,7 +109,7 @@ export default class LoyaltyApp extends React.Component {
      * @param bonus
      */
     withdrawBonus = (bonus) => {
-        let { currentOrder } = this.state;
+        const { currentOrder } = this.state;
 
         bonus = parseFloat(bonus);
 
@@ -136,7 +130,7 @@ export default class LoyaltyApp extends React.Component {
                 .then((info) => {
                     this.setState({ currentClient: info.client, currentOrder: data.order, place: 'order' });
 
-                    Poster.interface.popup({ width: 600, height: 400, title: "Клиент интеграции" });
+                    Poster.interface.popup({ width: 600, height: 400, title: 'Клиент интеграции' });
                 });
         }
 
@@ -147,10 +141,10 @@ export default class LoyaltyApp extends React.Component {
                         this.setState({
                             currentClient: info.client,
                             currentOrder: info.order,
-                            place: 'beforeOrderClose'
+                            place: 'beforeOrderClose',
                         });
 
-                        Poster.interface.popup({ width: 500, height: 300, title: "Списание бонусов" });
+                        Poster.interface.popup({ width: 500, height: 300, title: 'Списание бонусов' });
                     } else {
                         // Если не нашли клиента, продолжаем поток выполнения в Poster
                         this.next();
@@ -160,7 +154,9 @@ export default class LoyaltyApp extends React.Component {
     };
 
     render() {
-        let { place, clientGroups, currentClient, currentOrder } = this.state;
+        const {
+            place, clientGroups, currentClient, currentOrder,
+        } = this.state;
 
         // В зависимости от места в котором вызвали икно интеграции отображаем разные окна
 
@@ -168,7 +164,9 @@ export default class LoyaltyApp extends React.Component {
         if (place === 'order') {
             return (
                 <ClientView
-                    groups={clientGroups} currentClient={currentClient} currentOrder={currentOrder}
+                    groups={clientGroups}
+                    currentClient={currentClient}
+                    currentOrder={currentOrder}
                     setCurrentClient={this.setOrderClient}
                 />
             );
@@ -178,12 +176,13 @@ export default class LoyaltyApp extends React.Component {
         if (place === 'beforeOrderClose') {
             return (
                 <BonusView
-                    currentClient={currentClient} currentOrder={currentOrder}
+                    currentClient={currentClient}
+                    currentOrder={currentOrder}
                     withdrawBonus={this.withdrawBonus}
                 />
-            )
+            );
         }
 
-        return (<div></div>)
+        return (<div />);
     }
 }

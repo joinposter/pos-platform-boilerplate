@@ -1,13 +1,12 @@
-'use strict';
+import '../css/main.less';
 
-import "../css/main.less";
-
-// Required for work on iOS 9
+// Required for work on iOS 9b
 import 'babel-polyfill';
 
 import HelloWorldApp from '../../examples/hello-world/app';
 import LoyaltyApp from '../../examples/loyalty/app';
 import DeviceHandshakeApp from '../../examples/device-handshake/app';
+import TextPrintApp from '../../examples/text-print/app';
 
 
 class ExampleApp extends React.Component {
@@ -16,13 +15,15 @@ class ExampleApp extends React.Component {
 
         return <HelloWorldApp />;
 
-        // return <LoyaltyApp/>;
+        return <LoyaltyApp />;
 
-        // return <DeviceHandshakeApp />
+        return <DeviceHandshakeApp />;
+
+        return <TextPrintApp />;
     }
 }
 
 ReactDOM.render(
     <ExampleApp />,
-    document.getElementById('app-container')
+    document.getElementById('app-container'),
 );

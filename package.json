@@ -31,10 +31,19 @@
     "md5": "^2.2.1",
     "react": "^16.5.2",
     "react-loader": "^2.4.2",
+    "receipt": "^1.4.0",
     "request": "^2.88.0",
     "shelljs": "^0.7.8",
     "style-loader": "^0.18.2",
     "webpack": "^3.0.0",
     "webpack-dev-server": "^2.11.3"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.8.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jsx-a11y": "^6.1.2",
+    "eslint-plugin-react": "^7.11.1"
   }
 }
