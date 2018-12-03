@@ -8,13 +8,15 @@ var URL = 'http://platform.joinposter.com/api/application.uploadPOSPlatformBundl
 var FILENAME = 'bundle.js';
 
 (function () {
-    if ( ! shell.exec('NODE_ENV=production webpack')) {
+    console.log('Started bundle build, you will see a message in a minute...');
+
+    if (!shell.exec('webpack --env.p')) {
         console.log('Error while preparing build');
         return;
     }
 
     fs.readFile(FILENAME, function (err, buf) {
-        if ( ! err) {
+        if (!err) {
             var fileMd5 = md5(buf),
                 signParts = [
                     manifest.applicationId,
@@ -35,7 +37,7 @@ var FILENAME = 'bundle.js';
 
             }, function (err, response, body) {
 
-                if ( ! err) {
+                if (!err) {
                     try {
                         body = JSON.parse(body);
 
