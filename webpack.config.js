@@ -19,6 +19,10 @@ module.exports = {
         'bundle.js': './src/js/app.js',
     },
 
+    resolve: {
+        extensions: ['.json', '.js', '.jsx', '.less'],
+    },
+
     output: {
         path: path.resolve(__dirname, './'),
         filename: '[name]',
@@ -47,6 +51,10 @@ module.exports = {
                     { loader: 'css-loader' },
                     { loader: 'less-loader' },
                 ],
+            },
+            {
+                test: /\.(eot|woff|woff2|ttf|svg|png|jpg|gif)$/,
+                loader: 'url-loader',
             },
         ],
     },

@@ -14,6 +14,7 @@ export default class HelloWorldApp extends React.Component {
         Poster.interface.showApplicationIconAt({
             functions: 'Кнопка платформы',
             order: 'Кнопка платформы',
+            payment: 'My Button',
         });
 
         // Подписываемся на клик по кнопке
@@ -21,10 +22,10 @@ export default class HelloWorldApp extends React.Component {
             if (data.place === 'order') {
                 this.setState({ emoji: '👩‍🍳', message: 'Вы открыли окно заказа!' });
             } else {
-                this.setState({ emoji: '⚙', message: 'Вы открыли окно настроек!' });
+                this.setState({ emoji: '💵', message: 'Checkout modal!' });
             }
             // Показываем интерфейс
-            Poster.interface.popup({ width: 500, height: 400, title: 'Мое приложение' });
+            Poster.interface.popup({ width: 500, height: 400, title: 'My app' });
         });
 
         // Подписываемся на ивент закрытия заказа

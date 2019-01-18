@@ -1,0 +1,189 @@
+.main-container {
+    width: 100%;
+    color: #222222;
+}
+
+.page-assign-room {
+    padding: 20px 20px 10px 20px;
+    background: rgb(247, 247, 247);
+    height: 500px;
+    overflow-y: scroll;
+
+    .search {
+        position: relative;
+        margin: 0px 0 20px 0;
+
+        input {
+            display: block;
+            border-radius: 4px;
+            width: 100%;
+            box-shadow: none;
+            transition: border 2ms ease-out;
+            border: 1px solid #c9c9c9;
+
+            &:active, &:focus {
+                border: 1px solid #3c98f7;
+                box-shadow: none;
+                border-radius: 4px;
+            }
+        }
+
+        .clear {
+            position: absolute;
+            right: 0;
+            top: 3px;
+            cursor: pointer;
+            font-size: 25px;
+            color: #9c9c9c;
+            font-weight: 400;
+            padding: 0;
+            height: 35px;
+            width: 35px;
+            line-height: 30px;
+            text-align: center;
+        }
+    }
+
+    .ispinner {
+        margin: 34% auto 0 auto;
+    }
+
+    .room {
+        cursor: pointer;
+        position: relative;
+
+        border-radius: 4px;
+        background: white;
+        transition: border 2ms ease-out, box-shadow 2ms ease-out;
+        box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.15);
+        margin-bottom: 10px;
+
+        padding: 20px 30px;
+
+        &.active {
+            box-shadow: 0 0 0 1px #3c98f7;
+        }
+
+        h3 {
+            margin: 0px 0 10px 0;
+        }
+
+        .hint {
+            font-size: 16px;
+            margin: 5px 0 0 0;
+
+            color: #222222;
+
+            .name {
+                color: #9B9B9B;
+                width: 130px;
+                display: inline-block;
+            }
+        }
+
+        .room-name {
+            display: inline-block;
+            background: #4A90E2;
+            border-radius: 3px;
+
+            color: white;
+            padding: 2px 15px;
+            margin-top: -2px;
+            margin-left: 6px;
+            font-weight: normal;
+        }
+
+        .unassign {
+            position: absolute;
+            top: 12px;
+            right: 15px;
+            color: #4A90E2;
+            border: none;
+            text-decoration: none;
+            padding: 10px 15px;
+
+            &:hover {
+                background: white;
+                opacity: 0.8;
+            }
+        }
+    }
+}
+
+.page-payment-place {
+    position: relative;
+    padding: 20px 20px 20px 20px;
+    background: white;
+    height: 370px;
+
+    .guest-name {
+        margin-top: 00px;
+        margin-bottom: 20px;
+    }
+
+    .field {
+        font-size: 18px;
+        color: #9B9B9B;
+
+        .value {
+            float: right;
+            color: #222222;
+        }
+
+        .value.room {
+            background: #4A90E2;
+            border-radius: 3px;
+
+            color: white;
+            padding: 2px 15px;
+            margin-top: -2px;
+        }
+    }
+
+    .error-msg {
+        color: red;
+        font-size: 16px;
+        display: block;
+        margin-bottom: 20px;
+    }
+
+    .total {
+        padding: 15px 20px;
+        width: 100%;
+        display: block;
+
+        position: absolute;
+        bottom: 90px;
+        left: 0px;
+
+        font-weight: bold;
+        font-size: 22px;
+
+        border-bottom: 1px solid #ececec;
+        border-top: 1px solid #ececec;
+
+        * {
+            color: #222222;
+            margin: 0px;
+        }
+    }
+
+    .btn {
+        height: 50px;
+        font-size: 18px;
+        position: absolute;
+        bottom: 20px;
+
+        width: 220px;
+
+        &.btn-default {
+            left: 20px;
+            border-color: #6faaec;
+        }
+
+        &.btn-green {
+            right: 20px
+        }
+    }
+
+}

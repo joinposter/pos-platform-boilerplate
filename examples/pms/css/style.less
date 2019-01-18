@@ -1,0 +1,197 @@
+html {
+    min-height: 100%;
+    height: 100%;
+}
+
+html body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: transparent;
+    color: #222222;
+
+    background: #ffffff;
+
+    min-height: 100%;
+    padding: 0px;
+
+    h2 {
+        margin-top: 0;
+        font-weight: bold;
+        font-size: 24px;
+    }
+
+    h3 {
+        font-size: 18px;
+    }
+
+    h3, h4 {
+        font-weight: bold;
+    }
+
+    a {
+        color: #2688cd;
+    }
+
+    .ib {
+        display: inline-block;
+        vertical-align: middle;
+    }
+}
+
+.block-link {
+    display: block;
+    margin: 0 -15px;
+    padding: 15px;
+}
+
+h2 .quantity,
+h3 .quantity,
+h4 .quantity {
+    color: #999;
+    font-weight: normal;
+    font-size: 0.7em;
+}
+
+.gray-wrapper {
+    margin: 25px -15px;
+    padding: 15px;
+    background-color: #f4f4f4;
+}
+
+.gray-wrapper .table {
+    margin-bottom: 0;
+}
+
+.gray-wrapper h3 {
+    margin-top: 0;
+}
+
+.negative {
+    color: #bb3c3c;
+}
+
+.positive {
+    color: #15ad4b;
+}
+
+.gray {
+    color: #888;
+}
+
+.hint {
+    margin: 5px 0;
+    color: #888;
+    font-size: 13px;
+
+    &:first-child {
+        margin-top: 0;
+    }
+}
+
+.bigger {
+    font-size: 1.25em;
+}
+
+.va-middle {
+    vertical-align: middle;
+}
+
+.pseudo-link {
+    cursor: pointer;
+}
+
+.row.row-no-margins {
+    margin: 0;
+}
+
+.noresults {
+    text-align: center;
+    color: #999;
+}
+
+/* костыль для итого: */
+table + h3 {
+    padding-bottom: 30px;
+}
+
+thead td, thead th {
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: 'fontello';
+    src: url('font_rouble/fontello.eot?30902956');
+    src: url('font_rouble/fontello.eot?30902956#iefix') format('embedded-opentype'),
+    url('font_rouble/fontello.woff?30902956') format('woff'),
+    url('font_rouble/fontello.ttf?30902956') format('truetype'),
+    url('font_rouble/fontello.svg?30902956#fontello') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.icon-rouble:before {
+    font-family: "fontello";
+    font-style: normal;
+    font-weight: normal;
+    speak: none;
+
+    display: inline-block;
+    text-decoration: inherit;
+    width: 1em;
+    margin-right: .2em;
+    text-align: center;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1em;
+    margin-left: -0.1em;
+
+    content: '\e800';
+}
+
+label[disabled=disabled] {
+    cursor: not-allowed;
+    color: #999;
+}
+
+a.disabled, a.disabled:active, a.disabled:hover {
+    cursor: default;
+    color: #999 !important;
+}
+
+.btn {
+    outline: none !important;
+    transition: opacity 0.2s;
+
+    &:hover {
+        opacity: 0.8;
+    }
+}
+
+.btn-blue {
+    background: rgb(33, 117, 181);
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-bottom: 2px solid #3F51B5;
+
+    &:hover {
+        color: white;
+    }
+}
+
+.btn-gray {
+    border-bottom: 1px solid #c0c0c0;
+    outline: 0;
+    border-radius: 4px;
+    cursor: pointer;
+    background: #f2f2f2;
+}
+
+.btn-green {
+    transition: opacity 0.2s;
+
+    &:hover {
+        color: white;
+    }
+}

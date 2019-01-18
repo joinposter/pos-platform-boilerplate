@@ -1,0 +1,467 @@
+.discount-wrapper {
+    display: block;
+    width: 100%;
+    height: 328px;
+
+    .discount-component-wrapper {
+
+        border-radius: 5px;
+        background: #fff;
+
+        .sk-fading-circle {
+            top: 120px;
+        }
+
+        &:after {
+            display: block;
+            clear: both;
+            content: '';
+        }
+
+        .close {
+            position: absolute;
+            right: 27px;
+            top: 17px;
+
+            font-size: 14px;
+            background: none;
+            font-weight: bold;
+            padding: 0;
+            cursor: pointer;
+            z-index: 2;
+
+            color: #4c93e3;
+            outline: 0;
+            border: 0;
+        }
+
+        span.group {
+
+            padding: 2px 5px;
+
+            font-size: 12px;
+            color: #fff;
+
+            background: rgb(121, 164, 240);
+            border-radius: 3px;
+        }
+
+        .clients {
+            width: 39%;
+            float: left;
+            position: relative;
+
+            border-right: 1px solid #e9e9e9;
+
+            .client-search-header {
+                padding: 15px;
+
+                border-bottom: 1px solid #e9e9e9;
+
+                .scan-card {
+                    position: absolute;
+                    top: 17px;
+                    right: 49px;
+                    padding: 0px 13px;
+                    background: none;
+                    border: none;
+
+                    .icon-camera {
+                        color: #4d4d4d;
+                        font-size: 18px;
+                    }
+                }
+
+                .icon-search {
+                    position: absolute;
+                    top: 22px;
+                    left: 22px;
+
+                    color: #a9a9a9;
+                    font-size: 18px;
+                }
+
+                .clear-search-field {
+                    position: absolute;
+                    top: 16px;
+                    right: 20px;
+
+                    padding: 0px 3px;
+
+                    background: none;
+                    border: none;
+
+                    .icon-cancel-circled {
+                        color: #a9a9a9;
+                        font-size: 16px;
+                    }
+                }
+
+                .add-new-client {
+                    position: absolute;
+                    top: 12px;
+                    right: 17px;
+                    padding: 0px 3px;
+
+                    color: #1cb00c;
+                    font-size: 34px;
+
+                    background: none;
+                    border: none;
+                }
+
+                .search-client {
+                    width: 78%;
+                    padding: 8px 16px 8px 35px;
+                    border: 0;
+
+                    display: block;
+
+                    line-height: 21px;
+                    letter-spacing: -0.1px;
+                    font-size: 14px;
+
+                    border-radius: 3px;
+                    box-sizing: border-box;
+
+                    background: #fafafa;
+
+                    outline: 0;
+
+                    &.full-width {
+                        width: 100%;
+
+                        & ~ .clear-search-field {
+                            right: 20px;
+                        }
+                    }
+                }
+            }
+
+            .clients-list {
+                height: 260px;
+
+                -webkit-overflow-scrolling: touch;
+                background: #fafafa;
+                overflow-y: auto;
+
+                h3 {
+                    font-weight: bold;
+                    padding-left: 20px;
+                    margin-top: 20px;
+                    margin-bottom: 5px;
+
+                    &:first-child {
+                        margin-top: 0;
+                    }
+                }
+
+                li {
+                    padding-left: 20px;
+                    border-bottom: 1px solid #eee;
+                    height: 38px;
+
+                    position: relative;
+
+                    font-size: 14px;
+                    cursor: pointer;
+                    overflow: hidden;
+
+                    &:after {
+                        display: block;
+                        clear: both;
+                        content: '';
+                    }
+
+                    .icon-check {
+                        color: #4a90e2;
+                        float: left;
+                        margin-left: -20px;
+                        margin-top: 8px;
+                    }
+
+                    &:hover {
+                        background: rgba(255, 250, 184, 0.2);
+                        margin-left: 0px;
+                    }
+
+                    &.active {
+                        background: #4a90e2;
+                        color: #fff;
+
+                        margin-left: 0px;
+
+                        .icon-check {
+                            color: #fff;
+                        }
+                    }
+
+                    .group {
+                        display: inline-block;
+                        white-space: nowrap;
+                        margin-top: 8px;
+                    }
+
+                    &:last-child {
+                        border-bottom: 0;
+                    }
+
+                    .client-name {
+                        float: left;
+                        line-height: 38px;
+                        white-space: nowrap;
+                        margin-right: 10px;
+
+                    }
+
+                    .discount {
+                        position: absolute;
+                        right: 15px;
+                        top: 8px;
+
+                        font-weight: bold;
+                    }
+
+                    .card-number {
+                        padding: 1px 5px;
+                        float: right;
+                        top: 5px;
+                        margin-right: 10px;
+                        margin-top: 8px;
+                        font-size: 12px;
+                        border: 1px solid #dddddd;
+
+                        border-radius: 3px;
+                    }
+                }
+
+                .franchise-search {
+
+                    text-align: center;
+                    padding: 25px;
+
+                    .franchise-search-header {
+                        text-align: center;
+                        color: #817b7b;
+                        white-space: nowrap;
+                    }
+
+                    .franchise-search-btn {
+                        font-size: 14px;
+                        background: none;
+                        font-weight: 600;
+                        padding: 0;
+                        cursor: pointer;
+                        z-index: 2;
+                        color: #4c93e3;
+                    }
+
+                    .spinner {
+                        margin: 0px auto;
+                    }
+
+                    .sk-fading-circle {
+                        top: 0;
+                    }
+                }
+            }
+
+            .actions {
+                position: relative;
+                button {
+                    margin-right: 10px;
+                    &.disabled {
+                        cursor: default;
+                    }
+                }
+            }
+
+            .client-not-found {
+                text-align: center;
+
+                p {
+                    margin-bottom: 10px;
+                    margin-top: 30px;
+                    font-size: 18px;
+                }
+
+                a {
+                    color: #3c98f7;
+                    text-decoration: none;
+                }
+            }
+        }
+
+        &.secure {
+
+            .client-card {
+                width: 100%;
+
+                .client-card-body {
+                    overflow: hidden;
+
+                    .client-data {
+
+                        li {
+                            width: 50%;
+                            display: inline-block;
+                        }
+                    }
+                }
+
+                .client-card-footer {
+                    width: auto;
+
+                    .remove-client {
+                        float: right;
+                    }
+                }
+            }
+        }
+
+        .client-card {
+            width: 60%;
+            position: relative;
+            height: 328px;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+            flex-direction: column;
+
+            .client-card-header {
+                padding: 21px 90px 16px 30px;
+                border-bottom: 1px solid #eee;
+                -webkit-box-flex: 0;
+                flex-grow: 0;
+
+                .name {
+                    max-width: 100%;
+                    margin-right: 10px;
+
+                    line-height: 30px;
+                    font-size: 23px;
+                }
+
+                .group {
+                    max-width: 100%;
+                    padding: 2px 0px;
+                    -webkit-box-shadow: 6px 0 0 #79a4f0, -6px 0 0 #79a4f0;
+                    box-shadow: 6px 0 0 #79a4f0, -6px 0 0 #79a4f0;
+                    font-size: 20px;
+                }
+
+                &:after {
+                    display: block;
+                    clear: both;
+                    content: '';
+                }
+            }
+
+            .client-card-body {
+                height: 202px;
+                padding: 18px 30px;
+                overflow: auto;
+                -webkit-box-flex: 1;
+                flex-grow: 1;
+                flex-shrink: 1;
+
+                .client-data {
+                    font-size: 15px;
+
+                    li {
+                        margin-bottom: 13px;
+
+                        &:last-child {
+                            margin-bottom: 0;
+                        }
+
+                        &:after {
+                            display: block;
+                            content: '';
+                            clear: both;
+                        }
+
+                        .prop-name {
+                            width: 32%;
+                            display: block;
+                            float: left;
+                            color: #817b7b;
+                            letter-spacing: -0.6px;
+                        }
+
+                        .prop-val {
+                            width: 68%;
+                            display: block;
+                            float: left;
+
+                            .product {
+                                float: left;
+                                margin-right: 10px;
+                                margin-bottom: 4px;
+
+                                &:after {
+                                    content: ',';
+                                }
+
+                                &:last-of-type {
+                                    &:after {
+                                        display: none;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            .client-card-footer {
+                background: white;
+                padding: 15px 10px 15px 30px;
+                -webkit-box-flex: 0;
+                flex-grow: 0;
+                flex-shrink: 0;
+                text-align: left;
+
+                .add-client {
+                    margin-right: 10px;
+                    font-size: 14px;
+                }
+
+                .remove-client {
+                    font-size: 14px;
+                }
+
+                .error-msg {
+                    line-height: 30px;
+                    padding: 5px;
+                    font-size: 9px;
+                    color: #7C3C3C;
+                }
+
+            }
+        }
+
+        .no-groups {
+            padding: 146px;
+            line-height: 25px;
+            font-size: 14px;
+            text-align: center;
+        }
+    }
+
+
+    .btn-green, .btn-red {
+        padding: 5px 20px;
+        font-size: 16px;
+    }
+
+    .btn-red {
+        float: right;
+    }
+}
+
+.page-temp .ispinner {
+    margin: 150px auto 0 auto;
+}
