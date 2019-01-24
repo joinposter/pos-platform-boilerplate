@@ -59,7 +59,7 @@ var FILENAME = 'bundle.js';
             });
 
         } else {
-            console.log('Error while reading ' + fileName);
+            console.log('Error while reading ' + FILENAME);
             console.log(err);
         }
     });
