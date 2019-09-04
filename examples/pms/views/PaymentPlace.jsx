@@ -1,7 +1,8 @@
 import React from 'react';
 import PropType from 'prop-types';
 
-import Spinner from '../components/Spinner';
+import { Spinner } from 'poster-ui-kit';
+
 import Helper from '../helpers/helper';
 
 const m = Helper.moneyFormat;

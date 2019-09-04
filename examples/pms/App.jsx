@@ -109,7 +109,7 @@ export default class App extends React.Component {
             const product = await Poster.products.getFullName(order.products[i]);
             const model = await Poster.products.get(product.id);
 
-            // Если на товар применена акция его стоимость уменшилась и записалась в promotionPrice
+            // If discount applied to the order we should calculate price with discount
             if (product.promotionPrice !== undefined) {
                 product.price = product.promotionPrice;
             }
@@ -118,20 +118,29 @@ export default class App extends React.Component {
             product.price -= product.price / order.subtotal * discount;
             product.tax = 0;
 
+            // Here we will calculate total tax value, but product price will be only for 1 item
+            // E.g. for 2 donuts price field will contain 1 donut price and tax field will contain whole taxes sum for 2 donuts
+
+            // Считаем Sales Tax
             if (model.taxType === 1 && model.taxValue) {
                 product.tax = product.price * model.taxValue / 100;
-                product.tax *= product.count;
-
-                product.taxName = model.taxName;
             }
 
-            // Считаем НДС, он включенн в цену, так вычитаем его из цены
-            if ((model.taxType === 2 || model.taxType === 3) && model.taxValue) {
+            // Calculate VAT. VAT already included in price so we have to subtract it
+            if (model.taxType === 3 && model.taxValue) {
                 product.tax = product.price - product.price / (1 + model.taxValue / 100);
-                product.tax *= product.count;
-
-                product.taxName = model.taxName;
                 product.price -= product.tax;
+            }
+
+            // Calculate tax on turnover
+            if (model.taxType === 2 && model.taxValue) {
+                product.tax = product.price * model.taxValue / 100;
+                product.price -= product.tax;
+            }
+
+            if (product.tax !== undefined) {
+                product.tax *= product.count;
+                product.taxName = model.taxName;
             }
 
             products.push(product);

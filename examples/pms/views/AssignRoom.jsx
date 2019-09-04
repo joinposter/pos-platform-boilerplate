@@ -1,6 +1,7 @@
 import React from 'react';
 
-import Spinner from '../components/Spinner';
+import { Spinner } from 'poster-ui-kit';
+
 import ClientsSearch from './ClientSearch';
 
 import API from '../helpers/api';
