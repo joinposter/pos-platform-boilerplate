@@ -121,7 +121,7 @@ export default class App extends React.Component {
             // Here we will calculate total tax value, but product price will be only for 1 item
             // E.g. for 2 donuts price field will contain 1 donut price and tax field will contain whole taxes sum for 2 donuts
 
-            // Считаем Sales Tax
+            // Calculate Sales Tax
             if (model.taxType === 1 && model.taxValue) {
                 product.tax = product.price * model.taxValue / 100;
             }
