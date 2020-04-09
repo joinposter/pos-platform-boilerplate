@@ -20,7 +20,6 @@ POS Platform Boilerplate — это шаблон для создания при�
 
 ```bash
 npm install 
-npm install webpack-dev-server -g
 npm run dev
 ```
 
