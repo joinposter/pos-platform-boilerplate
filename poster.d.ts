@@ -99,10 +99,10 @@ declare global {
                 groupId: number;
                 hidden: Flag;
                 loyaltyType: LoyaltyType;
-                phone: string,
-                totalPayedSum: number,
-                birthday: string,
-                email: string,
+                phone: string;
+                totalPayedSum: number;
+                birthday: string;
+                email: string;
             }
 
             interface WriteModel {
@@ -198,7 +198,7 @@ declare global {
                 country: string;
             }
 
-            interface ProductModel {
+            interface Product extends Product.Model {
                 count: number;
                 id: number;
                 modification: number | string;
@@ -206,10 +206,8 @@ declare global {
                 price: number;
                 promotionPrice: number;
                 printedNum: number;
-                taxId: number;
-                taxType: Tax.Type;
-                taxValue: number;
                 taxFiscal: Flag;
+                extras: Record<string, any>
             }
 
             interface Model {
@@ -231,7 +229,7 @@ declare global {
                 payedCash: number;
                 payedThirdParty: number;
                 payedSum: number;
-                products: ProductModel[],
+                products: Product[],
                 status: Status,
                 subtotal: number;
                 total: number;
@@ -240,6 +238,7 @@ declare global {
                 tipSum: number;
                 serviceMode: Type;
                 deliveryInfo: DeliveryInfo;
+                extras: Record<string, any>;
             }
 
             interface AddProductOptions {
@@ -271,13 +270,49 @@ declare global {
 
                 printReceipt(orderId: number, qrCodeData: string, qrCodeTitle: string): void;
 
+                setPrintText(orderId: number, text: string): Promise<{ success: boolean }>;
+
                 addProduct(orderId: number, options: AddProductOptions): Promise<Model>;
 
                 changeProductCount(orderId: number, options: ChangeProductCountOptions): Promise<Model>;
 
                 closeOrder(orderId: number, options: CloseOrderOptions): Promise<{ result?: string, error?: string }>
+
+                setExtras(orderId: number, key: string, value: string): Promise<{ success: boolean }>;
             }
         }
+        namespace IncomingOrder {
+            export enum Type {
+                OnlineOrder = 1,
+                Booking = 2,
+            }
+
+            interface Payment {
+                type: Flag;
+                incomingOrderId: number;
+                sum: number;
+                currency: string;
+                createdAt: number;
+            }
+
+            interface Client extends Client.Model {
+                clientGroupId?: number;
+            }
+
+            interface Model {
+                id: number;
+                clientId: number;
+                comment: string;
+                guestsCount: number;
+                type: Type;
+                sum: number;
+                tableId: number;
+                products: Order.Product[];
+                payments?: Payment;
+                client?: Client;
+            }
+        }
+
         namespace Product {
             interface Model {
                 id: number
@@ -408,7 +443,7 @@ declare global {
                 callback: (
                     info: {
                         order: Order.Model,
-                        product: Pick<Order.ProductModel, 'id' | 'modification' | 'count'>
+                        product: Pick<Order.Product, 'id' | 'modification' | 'count'>
                     }
                 ) => void
             ): void;
@@ -418,6 +453,8 @@ declare global {
             on(event: 'beforeOrderClose', callback: (data: Order.Model, next: (payButton: string) => any) => void): void;
 
             on(event: 'afterOrderClose', callback: (data: Order.Model) => void): void;
+
+            on(event: 'incomingOrderCreated', callback: (data: Order.Model) => void): void;
 
             on(event: 'applicationIconClicked', callback: (data: { place: string, order: Order.Model }) => void): void;
 
