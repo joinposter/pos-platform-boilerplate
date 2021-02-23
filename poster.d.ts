@@ -151,7 +151,11 @@ declare global {
             }
 
             interface Methods {
+                changeActiveUser(newPOSPassword: string): void;
+
                 get(userId: number): Promise<Model | null>
+
+                getAll(): Promise<Model[]>
 
                 getActiveUser(): Promise<Model>
             }
@@ -258,9 +262,9 @@ declare global {
             }
 
             interface Methods {
-                create(): Promise<Model>;
+                create(): Promise<{ order: Model, success: boolean }>;
 
-                getActive(): Promise<Model | null>;
+                getActive(): Promise<{ order: Model | null }>;
 
                 setOrderBonus(orderId: number, percentage: number): void;
 
@@ -450,7 +454,8 @@ declare global {
 
             on(event: 'orderClientChange', callback: (data: { clientId: number, orderId: number }) => void): void;
 
-            on(event: 'beforeOrderClose', callback: (data: Order.Model, next: (payButton: string) => any) => void): void;
+            on(event: 'beforeOrderClose',
+                callback: (data: Order.Model, next: (payButton: string) => any) => void): void;
 
             on(event: 'afterOrderClose', callback: (data: Order.Model) => void): void;
 
