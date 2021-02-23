@@ -21,7 +21,7 @@ declare namespace PosterPOS {
             title: string;
             message: string;
             icon: string;
-            waiter: number;
+            waiter?: number;
         }
 
         interface Notification {
@@ -70,7 +70,7 @@ declare namespace PosterPOS {
         interface Methods {
             makeRequest(url: string, options: MakeRequestOptions, callback: MakeRequestCallback): void;
 
-            // @todo: implement all available Web-API methods overloads
+            // @todo: implement available methods enum
             makeApiRequest(method: string, data: Record<string, any>, callback: (...args: any[]) => any): void;
         }
     }
@@ -354,11 +354,48 @@ declare namespace PosterPOS {
         }
     }
 
+    namespace Workshop {
+        interface Model {
+            id: number;
+            name: string;
+            printTickets: Flag;
+        }
+    }
+
+    interface Settings {
+        accountUrl: string;
+        applicationId: number;
+        applicationName: string;
+        country: string;
+        currencyCodeIso: string;
+        currency: string;
+        currencySymbol: string;
+        lang: 'ru' | 'ua' | 'en' | 'pl';
+        spotId: number;
+        spotTabletId: number;
+        subnetMask: string;
+        timezone: string;
+        extras: Record<string, any>;
+        spotExtras: Record<string, any>;
+        spotTabletExtras: Record<string, any>;
+        usesTables: boolean;
+        workshops: Workshop.Model[];
+    }
+
+    interface Environment {
+        android: boolean,
+        iOS: boolean,
+        windows: boolean,
+        desktop: boolean,
+    }
+
     interface API extends Request.Methods {
         interface: Interface.Methods;
         client: Client.Methods;
         user: User.Methods;
         orders: Order.Methods;
+        settings: Settings;
+        environment: Environment;
 
         on(event: string, callback: (...args: any[]) => void): void;
 
