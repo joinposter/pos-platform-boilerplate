@@ -430,6 +430,31 @@ declare global {
             desktop: boolean,
         }
 
+        namespace EventCallbacks {
+            type OrderOpen = (order: Order.Model) => void;
+            type OrderProductChange = (
+                info: {
+                    order: Order.Model,
+                    product: Pick<Order.Product, 'id' | 'modification' | 'count'>
+                }
+            ) => void
+            type OrderClientChange = (data: { clientId: number, orderId: number }) => void
+            type BeforeOrderClose = (data: Order.Model, next: (payButton: string) => any) => void;
+            type AfterOrderClose = (data: Order.Model) => void;
+            type IncomingOrderCreated = (data: Order.Model) => void;
+            type ApplicationIconClicked = (data: { place: string, order: Order.Model }) => void;
+            type AfterPopupClosed = () => void
+            type NotificationClick = (notification: Interface.Notification) => void
+            type UserLogin = (res: User.Model) => void
+            type UserLogout = (res: User.Model, next: () => void) => void
+            type PrintFiscal = (res: FiscalEvent.Success) => void
+            type FailedPrintFiscal = (res: FiscalEvent.Error) => void
+            type ReturnFiscal = (res: FiscalEvent.Success) => void
+            type FailedReturnFiscal = (res: FiscalEvent.Error) => void
+            type ShiftOpen = (data: CashShift.Model) => void
+            type ShiftClose = (data: CashShift.Model) => void
+        }
+
         interface API extends Request.Methods {
             interface: Interface.Methods;
             client: Client.Methods;
@@ -440,49 +465,39 @@ declare global {
 
             on(event: string, callback: (...args: any[]) => void): void;
 
-            on(event: 'orderOpen', callback: (order: Order.Model) => void): void;
+            on(event: 'orderOpen', callback: EventCallbacks.OrderOpen): void;
 
-            on(
-                event: 'orderProductChange',
-                callback: (
-                    info: {
-                        order: Order.Model,
-                        product: Pick<Order.Product, 'id' | 'modification' | 'count'>
-                    }
-                ) => void
-            ): void;
+            on(event: 'orderProductChange', callback: EventCallbacks.OrderProductChange): void;
 
-            on(event: 'orderClientChange', callback: (data: { clientId: number, orderId: number }) => void): void;
+            on(event: 'orderClientChange', callback: EventCallbacks.OrderClientChange): void;
 
-            on(event: 'beforeOrderClose',
-                callback: (data: Order.Model, next: (payButton: string) => any) => void): void;
+            on(event: 'beforeOrderClose', callback: EventCallbacks.BeforeOrderClose): void;
 
-            on(event: 'afterOrderClose', callback: (data: Order.Model) => void): void;
+            on(event: 'afterOrderClose', callback: EventCallbacks.AfterOrderClose): void;
 
-            on(event: 'incomingOrderCreated', callback: (data: Order.Model) => void): void;
+            on(event: 'incomingOrderCreated', callback: EventCallbacks.IncomingOrderCreated): void;
 
-            on(event: 'applicationIconClicked', callback: (data: { place: string, order: Order.Model }) => void): void;
+            on(event: 'applicationIconClicked', callback: EventCallbacks.ApplicationIconClicked): void;
 
-            on(event: 'afterPopupClosed', callback: () => void): void;
+            on(event: 'afterPopupClosed', callback: EventCallbacks.AfterPopupClosed): void;
 
+            on(event: 'notificationClick', callback: EventCallbacks.NotificationClick): void;
 
-            on(event: 'notificationClick', callback: (notification: Interface.Notification) => void): void;
+            on(event: 'userLogin', callback: EventCallbacks.UserLogin): void;
 
-            on(event: 'userLogin', callback: (res: User.Model) => void): void;
+            on(event: 'userLogout', callback: EventCallbacks.UserLogout): void;
 
-            on(event: 'userLogout', callback: (res: User.Model, next: () => void) => void): void;
+            on(event: 'printFiscal', callback: EventCallbacks.PrintFiscal): void;
 
-            on(event: 'printFiscal', callback: (res: FiscalEvent.Success) => void): void;
+            on(event: 'failedPrintFiscal', callback: EventCallbacks.FailedPrintFiscal): void;
 
-            on(event: 'failedPrintFiscal', callback: (res: FiscalEvent.Error) => void): void;
+            on(event: 'returnFiscal', callback: EventCallbacks.ReturnFiscal): void;
 
-            on(event: 'returnFiscal', callback: (res: FiscalEvent.Success) => void): void;
+            on(event: 'failedReturnFiscal', callback: EventCallbacks.FailedReturnFiscal): void;
 
-            on(event: 'failedReturnFiscal', callback: (res: FiscalEvent.Error) => void): void;
+            on(event: 'shiftOpen', callback: EventCallbacks.ShiftOpen): void;
 
-            on(event: 'shiftOpen', callback: (data: CashShift.Model) => void): void;
-
-            on(event: 'shiftClose', callback: (data: CashShift.Model) => void): void;
+            on(event: 'shiftClose', callback: EventCallbacks.ShiftClose): void;
         }
     }
 
