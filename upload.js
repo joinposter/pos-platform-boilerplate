@@ -10,7 +10,7 @@ var FILENAME = 'bundle.js';
 (function () {
     console.log('Started bundle build, you will see a message in a minute...');
 
-    if (!shell.exec('webpack --env.p')) {
+    if (!shell.exec('webpack --env p')) {
         console.log('Error while preparing build');
         return;
     }
