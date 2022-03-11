@@ -1,89 +1,113 @@
 /* eslint-disable */
-var webpack = require('webpack');
-var path = require('path');
-var build = process.env.NODE_ENV === 'production';
+const webpack = require('webpack');
+const { merge } = require('webpack-merge');
+const path = require('path');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 /* eslint-enable */
 
+const DEVELOPMENT = 'development';
+const PRODUCTION = 'production';
 
-process.argv.forEach((arg) => {
-    arg = arg.split('.')[1];
+module.exports = (env) => {
+    const MODE = (env.p || env.production) ? PRODUCTION : DEVELOPMENT;
 
-    if (arg === 'p' || arg === 'production') {
-        build = true;
-    }
-});
+    let commonConfig = {
+        context: __dirname,
+        mode: MODE,
+        entry: {
+            bundle: './src/js/app.js',
+        },
 
-module.exports = {
-    context: __dirname,
-    entry: {
-        'bundle.js': './src/js/app.js',
-    },
+        resolve: {
+            extensions: ['.json', '.js', '.jsx', '.less'],
+            fallback: {
+                fs: false,
+                timers: false,
+                util: false,
+                http: false,
+                stream: require.resolve('stream-browserify'),
+                os: require.resolve('os-browserify/browser'),
+            },
+        },
 
-    resolve: {
-        extensions: ['.json', '.js', '.jsx', '.less'],
-    },
+        output: {
+            path: path.resolve(__dirname, './'),
+            filename: '[name].js',
+        },
 
-    output: {
-        path: path.resolve(__dirname, './'),
-        filename: '[name]',
-    },
-
-    module: {
-        rules: [
-            {
-                test: /\.jsx?$/,
-                loader: 'babel-loader?cacheDirectory',
-                query: {
-                    presets: ['react', 'es2015', 'stage-0'],
+        module: {
+            rules: [
+                {
+                    test: /\.jsx?$/,
+                    loader: 'babel-loader',
+                    include: [
+                        path.resolve(__dirname, './src'),
+                        path.resolve(__dirname, './examples'),
+                    ],
+                    options: {
+                        cacheDirectory: true,
+                    },
                 },
-            },
-            {
-                test: /\.css$/,
-                use: [
-                    { loader: 'style-loader' },
-                    { loader: 'css-loader' },
-                ],
-            },
-            {
-                test: /\.less/,
-                use: [
-                    { loader: 'style-loader' },
-                    { loader: 'css-loader' },
-                    { loader: 'less-loader' },
-                ],
-            },
-            {
-                test: /\.(eot|woff|woff2|ttf|svg|png|jpg|gif)$/,
-                loader: 'url-loader',
-            },
+                {
+                    test: /\.css$/,
+                    use: [
+                        { loader: 'style-loader' },
+                        { loader: 'css-loader' },
+                    ],
+                },
+                {
+                    test: /\.less/,
+                    use: [
+                        { loader: 'style-loader' },
+                        { loader: 'css-loader' },
+                        { loader: 'less-loader' },
+                    ],
+                },
+                {
+                    test: /\.(eot|woff|woff2|ttf|svg|png|jpg|gif)$/,
+                    loader: 'url-loader',
+                },
+            ],
+        },
+
+        plugins: [
+            new webpack.ProvidePlugin({
+                process: 'process/browser',
+            }),
         ],
-    },
-    devtool: build ? 'source-map' : 'eval',
+    };
 
-    watch: !build,
+    if (MODE === DEVELOPMENT) {
+        commonConfig = merge(commonConfig, {
+            devtool: 'eval',
+            watchOptions: {
+                aggregateTimeout: 100,
+            },
+        });
+    } else {
+        commonConfig = merge(commonConfig, {
+            devtool: 'source-map',
+            optimization: {
+                minimize: true,
+                minimizer: [
+                    new UglifyJsPlugin({
+                        uglifyOptions: {
+                            compress: {
+                                unsafe: true,
+                            },
+                            warnings: false,
+                        },
+                        sourceMap: true,
+                    }),
+                ],
+            },
+            plugins: [
+                new webpack.DefinePlugin({
+                    'process.env.NODE_ENV': JSON.stringify(PRODUCTION),
+                }),
+            ],
+        });
+    }
 
-    watchOptions: {
-        aggregateTimeout: 100,
-    },
-
-    plugins: [],
+    return commonConfig;
 };
-
-if (build) {
-    module.exports.plugins.push(
-        new webpack.DefinePlugin({
-            'process.env': {
-                NODE_ENV: JSON.stringify('production'),
-            },
-        }),
-    );
-    module.exports.plugins.push(
-        new webpack.optimize.UglifyJsPlugin({
-            compress: {
-                unsafe: true,
-                warnings: false,
-            },
-            sourceMap: true,
-        }),
-    );
-}
