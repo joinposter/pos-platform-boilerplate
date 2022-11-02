@@ -34,9 +34,6 @@ export default class PaymentPlace extends React.Component {
                     <p className="field">Sub-total <span className="value">{m(subtotal)}</span></p>
                 </div>
 
-                <button className="btn btn-blue" onClick={() => onPayClicked('frontdesk')} disabled={blockButtons}>
-                    {blockButtons ? <Spinner color="white" className="ib" /> : 'Pay on front desk'}
-                </button>
                 <button className="btn btn-green" onClick={() => onPayClicked('here')} disabled={blockButtons}>
                     Pay here
                 </button>
