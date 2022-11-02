@@ -147,7 +147,7 @@ export default class App extends React.Component {
         }
 
         reservation.products = products;
-        reservation.payed = paymentPlace !== 'frontdesk'; // Order has been payed at Poster
+        reservation.payed = true; // Order has been payed at Poster
         reservation.payments = {
             cash: order.payedCash,
             card: order.payedCard,
@@ -159,43 +159,10 @@ export default class App extends React.Component {
         Storage.remove(`order${order.id}`);
     };
 
-    sendPayment = async (paymentPlace) => {
-        const { activeOrder, next } = this.state;
+    sendPayment = async () => {
+        const { next } = this.state;
 
-        // If guest will pay later front desk
-        if (paymentPlace === 'frontdesk') {
-            this.setState({ blockButtons: 'frontdesk' });
-
-            try {
-                await this.afterOrderClose({
-                    order: activeOrder,
-                    paymentPlace: 'frontdesk',
-                });
-            } catch (err) {
-                this.setState({
-                    errorMsg: err.message || 'Something went wrong, call to support',
-                    blockButtons: null,
-                });
-                return;
-            }
-
-            // Close order
-            const res = await Poster.orders.closeOrder(activeOrder.id, {
-                type: 'mix',
-                change: 0,
-                payed_card_id: 0,
-                payed_card_type: Poster.settings.application_id, // Order payed by app
-                payment: { card: activeOrder.total - (activeOrder.platformDiscount || 0) },
-                privat_id: 0,
-                reason: '1',
-            });
-
-            Poster.interface.closePopup();
-            console.log('----> Poster order closed', res);
-            return;
-        }
-
-        // В других случаях закрываем чек через окно оплаты
+        // закрываем чек через окно оплаты
         Poster.interface.closePopup();
         next();
     };
