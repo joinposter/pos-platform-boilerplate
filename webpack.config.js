@@ -2,7 +2,7 @@
 const webpack = require('webpack');
 const { merge } = require('webpack-merge');
 const path = require('path');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require("terser-webpack-plugin");
 /* eslint-enable */
 
 const DEVELOPMENT = 'development';
@@ -90,15 +90,7 @@ module.exports = (env) => {
             optimization: {
                 minimize: true,
                 minimizer: [
-                    new UglifyJsPlugin({
-                        uglifyOptions: {
-                            compress: {
-                                unsafe: true,
-                            },
-                            warnings: false,
-                        },
-                        sourceMap: true,
-                    }),
+                    new TerserPlugin(),
                 ],
             },
             plugins: [
