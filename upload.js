@@ -1,67 +1,61 @@
-var r = require('request');
-var md5 = require('md5');
-var fs = require('fs');
-var shell = require('shelljs');
-var manifest = require('./manifest.json');
+import r from 'request';
+import md5 from 'md5';
+import fs from 'fs';
+import shell from 'shelljs';
+import manifest from './manifest.json' assert { type: 'json'};
 
-var URL = 'http://platform.joinposter.com/api/application.uploadPOSPlatformBundle?format=json';
-var FILENAME = 'bundle.js';
+const URL = 'https://platform.joinposter.com/api/application.uploadPOSPlatformBundle?format=json';
+const FILENAME = 'dist/bundle.js';
 
 (function () {
-    console.log('Started bundle build, you will see a message in a minute...');
+  console.log('Started bundle build, you will see a message in a minute...');
 
-    if (!shell.exec('webpack --env p')) {
-        console.log('Error while preparing build');
-        return;
-    }
+  if (!shell.exec('yarn build')) {
+    console.log('Error while preparing build');
+    return;
+  }
 
-    fs.readFile(FILENAME, function (err, buf) {
+  fs.readFile(FILENAME, (err, buf) => {
+    if (!err) {
+      const fileMd5 = md5(buf),
+        signParts = [
+          manifest.applicationId,
+          fileMd5,
+          manifest.applicationSecret,
+        ],
+        sign = md5(signParts.join(':'));
+
+      const formData = {
+        application_id: manifest.applicationId,
+        sign,
+        bundle: fs.createReadStream(`./${FILENAME}`),
+      };
+
+      r.post({
+        url: URL,
+        formData,
+      }, (err, response, body) => {
         if (!err) {
-            var fileMd5 = md5(buf),
-                signParts = [
-                    manifest.applicationId,
-                    fileMd5,
-                    manifest.applicationSecret
-                ],
-                sign = md5(signParts.join(':'));
+          try {
+            body = JSON.parse(body);
 
-            var formData = {
-                application_id: manifest.applicationId,
-                sign: sign,
-                bundle: fs.createReadStream(__dirname + '/' + FILENAME)
-            };
+            if (body.error) {
+              throw new Error(JSON.stringify(body));
+            }
 
-            r.post({
-                url: URL,
-                formData: formData
-
-            }, function (err, response, body) {
-
-                if (!err) {
-                    try {
-                        body = JSON.parse(body);
-
-                        if (body.error) {
-                            throw new Error(JSON.stringify(body));
-                        }
-
-                        console.log('Bundle successfully sent to Poster');
-
-                    } catch (e) {
-                        console.log('Error while send bundle to Poster...');
-                        console.log(e);
-                    }
-
-                } else {
-                    console.log('Error while send bundle to Poster...');
-                    console.log(err);
-                }
-            });
-
+            console.log('Bundle successfully sent to Poster');
+          } catch (e) {
+            console.log('Error while send bundle to Poster...');
+            console.log(e);
+          }
         } else {
-            console.log('Error while reading ' + FILENAME);
-            console.log(err);
+          console.log('Error while send bundle to Poster...');
+          console.log(err);
         }
-    });
-
-})();
+      });
+    } else {
+      console.log(`Error while reading ${FILENAME}`);
+      console.log(err);
+    }
+  });
+}());
