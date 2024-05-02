@@ -3,3 +3,4 @@ bundle.js
 bundle.js.map
 .DS_Store
 .idea/
+dist/

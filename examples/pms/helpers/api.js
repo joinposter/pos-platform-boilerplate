@@ -1,6 +1,3 @@
-import Promise from 'promise-polyfill';
-
-
 export class DevAPI {
     constructor() {
         this.params = {};

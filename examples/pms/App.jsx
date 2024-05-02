@@ -1,4 +1,4 @@
-import './css/main.less';
+import './css/main.scss';
 
 import React from 'react';
 
