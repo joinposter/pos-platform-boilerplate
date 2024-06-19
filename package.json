@@ -2,12 +2,10 @@
   "name": "poster-pos-platform-boilerplate",
   "version": "1.0.0",
   "description": "",
-  "type": "module",
   "scripts": {
-    "preview": "vite preview",
-    "dev": "vite serve",
-    "build": "vite build && mv dist/bundle.umd.cjs dist/bundle.js",
-    "deploy": "node upload",
+    "dev": "vite build --watch & vite --host",
+    "build": "vite build",
+    "deploy": "node upload.mjs",
     "lint": "eslint . --ext .js,.jsx"
   },
   "repository": {
@@ -21,6 +19,7 @@
   },
   "homepage": "https://github.com/joinposter/Poster-POS-Platform-Boilerplate#readme",
   "dependencies": {
+    "@popperjs/core": "^2.11.8",
     "bootstrap": "^5.3.3",
     "os-browserify": "^0.3.0",
     "poster-ui-kit": "^1.2.0",
@@ -33,6 +32,9 @@
     "stream-browserify": "^3.0.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.24.7",
+    "@babel/preset-env": "^7.24.7",
+    "@rollup/plugin-babel": "^6.0.4",
     "@vitejs/plugin-react": "^4.2.1",
     "babel-eslint": "^10.0.1",
     "babel-polyfill": "^6.26.0",

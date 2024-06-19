@@ -42,7 +42,7 @@ export default class OrderView extends React.Component {
         let { clientCode, clientPhone, selectedGroup } = this.state;
         let { groups, currentClient } = this.props;
 
-        // Если клиент привязан то показываем его бонусы по нему
+        // Если клиент привязан, то показываем его бонусы по нему
         // Иначе даем возможность создать клиента и добавить заказа
         if (currentClient) {
             return (
