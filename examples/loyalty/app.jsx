@@ -26,7 +26,7 @@ export default class LoyaltyApp extends React.Component {
         // Подписываемся на ивенты Poster
         Poster.on('applicationIconClicked', this.showPopup);
         Poster.on('beforeOrderClose', (data, next) => {
-            // Сохранили callback чтобы закрыть заказ
+            // Сохранили callback, чтобы закрыть заказ
             this.next = next;
             this.showPopup({ place: 'beforeOrderClose' });
         });
@@ -41,7 +41,7 @@ export default class LoyaltyApp extends React.Component {
         Poster.makeApiRequest('clients.getGroups', { method: 'get' }, (groups) => {
             if (groups) {
                 // Не показываем удаленные группы
-                groups = _.filter(groups, g => parseInt(g.delete) === 0);
+                groups = groups.filter(g => parseInt(g.delete) === 0);
                 this.setState({ clientGroups: groups });
             }
         });

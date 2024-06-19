@@ -5,7 +5,7 @@ import shell from 'shelljs';
 import manifest from './manifest.json' assert { type: 'json'};
 
 const URL = 'https://platform.joinposter.com/api/application.uploadPOSPlatformBundle?format=json';
-const FILENAME = 'dist/bundle.js';
+const FILENAME = 'bundle.js';
 
 (function () {
   console.log('Started bundle build, you will see a message in a minute...');
