@@ -6,6 +6,7 @@ import HelloWorldApp from '../../examples/hello-world/app';
 import LoyaltyApp from '../../examples/loyalty/app';
 import TextPrintApp from '../../examples/text-print/app';
 import PmsApp from '../../examples/pms/App';
+import BankIntegrationApp from '../../examples/bank-integration/app';
 
 class ExampleApp extends React.Component {
     render() {
@@ -18,6 +19,8 @@ class ExampleApp extends React.Component {
         return <TextPrintApp />;
 
         return <PmsApp />;
+
+        return <BankIntegrationApp />;
     }
 }
 
