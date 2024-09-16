@@ -18,7 +18,7 @@
 
 ```javascript
 
-const device = await Poster.createPayTerminal({ name: Verifone });
+const device = await Poster.devices.createPayTerminal({ name: Verifone });
 await device.setOnline();
 await device.setAuth();
 
