@@ -1,5 +1,6 @@
 import ClientView from './client';
 import BonusView from './bonus';
+import React from 'react';
 
 /**
  * Отвечает за общую логику приложения,

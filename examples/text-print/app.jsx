@@ -1,4 +1,5 @@
 import receipt from 'receipt';
+import React from 'react';
 
 
 export default class TextPrint extends React.Component {
