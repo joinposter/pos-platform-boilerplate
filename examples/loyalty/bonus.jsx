@@ -1,6 +1,8 @@
 /**
  * Окно подтверждения списания бонусов
  */
+import React from 'react';
+
 export default class BonusView extends React.Component {
     constructor(props) {
         super(props);

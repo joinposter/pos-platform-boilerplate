@@ -1,6 +1,8 @@
 /**
  * Отображает и создает новых клиентов
  * **/
+import React from 'react';
+
 export default class OrderView extends React.Component {
     constructor(props) {
         super(props);

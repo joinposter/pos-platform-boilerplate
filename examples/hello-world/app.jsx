@@ -1,4 +1,5 @@
 import './styles.css';
+import React from 'react';
 
 
 export default class HelloWorldApp extends React.Component {
