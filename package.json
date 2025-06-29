@@ -46,7 +46,7 @@
     "md5": "^2.2.1",
     "request": "^2.88.0",
     "shelljs": "^0.8.5",
-    "vite": "^5.2.9",
+    "vite": "^5.2.14",
     "vite-plugin-css-injected-by-js": "^3.5.0",
     "vite-plugin-mkcert": "^1.17.5"
   }
